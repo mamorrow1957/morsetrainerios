@@ -1,0 +1,35 @@
+name: MorseTraineriOS
+options:
+  bundleIdPrefix: com.michaelmorrow
+  deploymentTarget:
+    iOS: "16.0"
+  xcodeVersion: "16.0"
+
+settings:
+  base:
+    SWIFT_VERSION: 5.9
+    MARKETING_VERSION: 1.0.0
+    CURRENT_PROJECT_VERSION: 1
+
+targets:
+  MorseTraineriOS:
+    type: application
+    platform: iOS
+    sources:
+      - MorseTraineriOS
+    settings:
+      base:
+        INFOPLIST_FILE: MorseTraineriOS/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.michaelmorrow.MorseTraineriOS
+    dependencies: []
+
+  MorseTraineriOSTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - MorseTraineriOSTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.michaelmorrow.MorseTraineriOSTests
+    dependencies:
+      - target: MorseTraineriOS
