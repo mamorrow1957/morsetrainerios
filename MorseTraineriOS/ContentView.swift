@@ -131,7 +131,6 @@ struct ContentView: View {
                     Text("Test").tag(Mode.test)
                 }
                 .pickerStyle(.segmented)
-                .disabled(vm.appState == .sending || vm.appState == .loading)
                 .accessibilityIdentifier("modeSwitch")
             }
             .frame(width: 120)

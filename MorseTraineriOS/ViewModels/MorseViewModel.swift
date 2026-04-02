@@ -15,7 +15,9 @@ final class MorseViewModel: ObservableObject {
     // MARK: - Published state
 
     @Published var appState: AppState = .idle
-    @Published var mode: Mode = .test
+    var mode: Mode = .test {
+        didSet { if appState == .sending || appState == .loading { mode = oldValue } }
+    }
     @Published var cpm: Int = 100
     @Published var displayText: String = ""
     @Published var morseDone: Bool = false
@@ -93,7 +95,9 @@ final class MorseViewModel: ObservableObject {
 
         engine.onComplete = { [weak self] in
             guard let self else { return }
-            self.displayText = "Send complete…"
+            if self.mode == .test {
+                self.displayText = "Send complete…"
+            }
             self.morseDone = true
             self.appState = .reveal
         }
