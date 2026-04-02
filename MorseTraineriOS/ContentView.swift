@@ -47,7 +47,7 @@ struct ContentView: View {
 
     private var mainContent: some View {
         VStack(spacing: 0) {
-            Spacer(minLength: 0)
+            Spacer()
 
             // Text box
             textBox
@@ -65,9 +65,8 @@ struct ContentView: View {
             actionButton
                 .padding(.horizontal, 20)
 
-            Spacer(minLength: 0)
-                .frame(maxHeight: .infinity)
-                .layoutPriority(2)
+            Spacer()
+            Spacer().frame(height: 30)
         }
     }
 
