@@ -182,8 +182,7 @@ final class MorseEngine {
             data[i] = Float(sin(2.0 * .pi * frequency * t) * envelope * 0.8)
         }
 
-        node.scheduleBuffer(buffer, completionHandler: nil)
-        try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+        await node.scheduleBuffer(buffer)
     }
 
     private func silence(duration: Double) async {
