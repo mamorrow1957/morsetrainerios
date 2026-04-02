@@ -19,8 +19,10 @@ targets:
       - MorseTraineriOS
     settings:
       base:
-        INFOPLIST_FILE: MorseTraineriOS/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.michaelmorrow.MorseTraineriOS
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_NSAppTransportSecurity_AllowsArbitraryLoads: NO
     dependencies: []
 
   MorseTraineriOSTests:
