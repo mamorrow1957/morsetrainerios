@@ -134,7 +134,7 @@ struct ContentView: View {
                 .disabled(vm.appState == .sending || vm.appState == .loading)
                 .accessibilityIdentifier("modeSwitch")
             }
-            .frame(maxWidth: .infinity)
+            .frame(width: 120)
 
             // Speed slider
             VStack(alignment: .leading, spacing: 4) {
