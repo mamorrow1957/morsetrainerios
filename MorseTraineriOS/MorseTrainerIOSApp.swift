@@ -12,6 +12,9 @@ struct MorseTrainerIOSApp: App {
             [.foregroundColor: UIColor.white], for: .normal)
         UISegmentedControl.appearance().setTitleTextAttributes(
             [.foregroundColor: UIColor.black], for: .selected)
+
+        // Match slider unselected track to segmented control background
+        UISlider.appearance().maximumTrackTintColor = UIColor(white: 0.25, alpha: 1)
     }
 
     var body: some Scene {
