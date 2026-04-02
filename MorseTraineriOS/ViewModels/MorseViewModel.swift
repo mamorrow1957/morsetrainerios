@@ -76,7 +76,7 @@ final class MorseViewModel: ObservableObject {
             displayText = "Sending …"
         } else {
             displayText = ""
-            learnChars = Array(sentence.uppercased())
+            learnChars = Array(sentence)
         }
 
         engine.onCharacterStart = { [weak self] index in

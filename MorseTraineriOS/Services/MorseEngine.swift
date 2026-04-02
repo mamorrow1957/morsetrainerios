@@ -105,7 +105,8 @@ final class MorseEngine {
             let ch = chars[charIndex]
 
             if ch == " " {
-                // Inter-word gap (halved to 3.5 units per spec)
+                let idx = charIndex
+                await MainActor.run { self.onCharacterStart?(idx) }
                 let unit = unitSeconds(cpm: cpmProvider())
                 await silence(duration: unit * 3.5)
             } else if let pattern = morseTable[ch] {
