@@ -33,6 +33,8 @@ final class MorseEngine {
     var onComplete: (() -> Void)?
 
     private let frequency: Double = 650.0
+    private let sampleRate: Double = 44100.0
+    private let audioFormat = AVAudioFormat(standardFormatWithSampleRate: 44100.0, channels: 1)!
     private var engine: AVAudioEngine?
     private var playerNode: AVAudioPlayerNode?
     private var isStopped = false
@@ -80,7 +82,7 @@ final class MorseEngine {
         let newEngine = AVAudioEngine()
         let node = AVAudioPlayerNode()
         newEngine.attach(node)
-        newEngine.connect(node, to: newEngine.mainMixerNode, format: nil)
+        newEngine.connect(node, to: newEngine.mainMixerNode, format: audioFormat)
         do {
             try newEngine.start()
         } catch {
@@ -151,22 +153,13 @@ final class MorseEngine {
 
     private func tone(duration: Double) async {
         guard let node = playerNode, let eng = engine, eng.isRunning else {
-            // Silent fallback
-            try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
-            return
-        }
-
-        let sampleRate = eng.mainMixerNode.outputFormat(forBus: 0).sampleRate
-        guard sampleRate > 0 else {
             try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
             return
         }
 
         let frameCount = AVAudioFrameCount(sampleRate * duration)
         guard frameCount > 0,
-              let buffer = AVAudioPCMBuffer(
-                pcmFormat: AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!,
-                frameCapacity: frameCount) else {
+              let buffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: frameCount) else {
             try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
             return
         }
