@@ -6,7 +6,6 @@ struct ContentView: View {
 
     // Colors
     private let appBackground  = Color(hex: "#1a1a1a")
-    private let controlBackground = Color(hex: "#2e2e2e")
     private let accent         = Color(hex: "#ff4d00")
     private let surface        = Color(hex: "#e8e8e8")
 
@@ -152,9 +151,6 @@ struct ContentView: View {
             }
             .frame(maxWidth: .infinity)
         }
-        .padding(12)
-        .background(controlBackground)
-        .cornerRadius(10)
     }
 
     // MARK: Button
