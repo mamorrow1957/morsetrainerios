@@ -66,7 +66,7 @@ struct ContentView: View {
                 .padding(.horizontal, 20)
 
             Spacer()
-            Spacer().frame(height: 30)
+            Spacer().frame(height: 80)
         }
     }
 
