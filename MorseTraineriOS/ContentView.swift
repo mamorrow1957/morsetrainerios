@@ -110,7 +110,7 @@ struct ContentView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 160)
+        .frame(height: 240)
         .accessibilityIdentifier("textbox")
     }
 
