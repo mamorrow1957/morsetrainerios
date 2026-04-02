@@ -45,14 +45,13 @@ struct SentenceExtractor {
     }
 
     private static func firstSentence(from text: String) -> String? {
-        // Split on sentence-ending punctuation followed by space or end
-        let terminators: CharacterSet = CharacterSet(charactersIn: ".!?")
+        let terminatorSet: Set<Character> = [".", "!", "?"]
         var start = text.startIndex
         var i = text.startIndex
 
         while i < text.endIndex {
             let ch = text[i]
-            if terminators.contains(ch.unicodeScalars.first!) {
+            if terminatorSet.contains(ch) {
                 // Check it's not an abbreviation
                 if ch == "." && isAbbreviationEnd(text: text, dotIndex: i) {
                     i = text.index(after: i)
@@ -105,12 +104,3 @@ struct SentenceExtractor {
     }
 }
 
-private extension Character {
-    var unicodeScalars: String.UnicodeScalarView { String(self).unicodeScalars }
-}
-
-private extension CharacterSet {
-    func contains(_ scalar: Unicode.Scalar) -> Bool {
-        self.contains(scalar)
-    }
-}
