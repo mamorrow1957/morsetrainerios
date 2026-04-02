@@ -124,7 +124,7 @@ struct ContentView: View {
             // Mode picker
             VStack(alignment: .leading, spacing: 4) {
                 Text("Mode")
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundColor(accent)
                 Picker("Mode", selection: $vm.mode) {
                     Text("Learn").tag(Mode.learn)
@@ -139,7 +139,7 @@ struct ContentView: View {
             // Speed slider
             VStack(alignment: .leading, spacing: 4) {
                 Text("Speed: \(vm.cpm) CPM")
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundColor(accent)
                     .accessibilityIdentifier("speedLabel")
                 Slider(value: Binding(
