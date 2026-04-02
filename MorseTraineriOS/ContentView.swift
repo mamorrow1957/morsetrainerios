@@ -46,34 +46,38 @@ struct ContentView: View {
     }
 
     private var mainContent: some View {
-        VStack(spacing: 0) {
-            Spacer()
+        GeometryReader { geo in
+            let h = geo.size.height
+            VStack(spacing: 0) {
+                Spacer()
 
-            // Text box
-            textBox
-                .padding(.horizontal, 20)
+                // Text box — 34% of available height
+                textBox(height: h * 0.34)
+                    .padding(.horizontal, 20)
 
-            Spacer().frame(height: 24)
+                Spacer().frame(height: h * 0.03)
 
-            // Mode picker + speed slider side by side area
-            controls
-                .padding(.horizontal, 20)
+                // Mode picker + speed slider
+                controls
+                    .padding(.horizontal, 20)
 
-            Spacer().frame(height: 24)
+                Spacer().frame(height: h * 0.03)
 
-            // Action button
-            actionButton
-                .padding(.horizontal, 20)
+                // Action button
+                actionButton
+                    .padding(.horizontal, 20)
 
-            Spacer()
-            Spacer().frame(height: 130)
+                // Extra bottom space to sit slightly above center
+                Spacer()
+                Spacer().frame(height: h * 0.19)
+            }
         }
     }
 
     // MARK: Text box
 
     @ViewBuilder
-    private var textBox: some View {
+    private func textBox(height: CGFloat) -> some View {
         ZStack(alignment: .topLeading) {
             RoundedRectangle(cornerRadius: 8)
                 .fill(surface)
@@ -111,7 +115,7 @@ struct ContentView: View {
             .padding(12)
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 240)
+        .frame(height: height)
         .accessibilityIdentifier("textbox")
     }
 

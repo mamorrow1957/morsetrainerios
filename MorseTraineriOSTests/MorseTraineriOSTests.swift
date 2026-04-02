@@ -4,9 +4,10 @@ import XCTest
 final class SentenceExtractorTests: XCTestCase {
 
     func testExtractsFirstSentence() {
-        let text = "This is the first sentence. This is the second sentence."
+        // Sentence must be longer than 5 words to qualify
+        let text = "This is the first complete sentence here. This is the second sentence."
         let result = SentenceExtractor.extract(from: text)
-        XCTAssertEqual(result, "This is the first sentence.")
+        XCTAssertEqual(result, "This is the first complete sentence here.")
     }
 
     func testSkipsShortSentences() {

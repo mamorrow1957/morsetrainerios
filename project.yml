@@ -33,5 +33,6 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.michaelmorrow.MorseTraineriOSTests
+        GENERATE_INFOPLIST_FILE: YES
     dependencies:
       - target: MorseTraineriOS
