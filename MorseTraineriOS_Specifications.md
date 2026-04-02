@@ -64,7 +64,7 @@ The screen background must be uniformly dark grey with no visible dividers betwe
 
 ### 3.4 Main Content Area
 
-The main content region holds the text box, the Learn/Test mode picker, the speed control, and the button. It uses a `VStack` with `Spacer` elements to center its children vertically.
+The main content region holds the text box, the Learn/Test mode picker, the speed control, and the button. It uses a `VStack` with `Spacer` elements positioned **slightly above vertical center** — achieved by giving the bottom spacer more space than the top spacer.
 
 ---
 
@@ -74,11 +74,12 @@ The main content region holds the text box, the Learn/Test mode picker, the spee
 |----------|-------|
 | Background | Very light grey (`#e8e8e8`) |
 | Text color | Black |
-| Width | 90% of screen width (use `.frame(maxWidth: .infinity)` with horizontal padding) |
-| Height | ~33% of the main content area height |
+| Width | Full width with horizontal padding (`.frame(maxWidth: .infinity)`) |
+| Height | 240 pt fixed |
 | Corner radius | 8 pt |
-| Font size | Body or equivalent — large enough to comfortably display 5 rows of text |
+| Font size | Body — large enough to comfortably display several rows of text |
 | Placeholder text | **"Press the button …"** — shown when content is empty |
+| Scrolling | Content is wrapped in a `ScrollView`; text scrolls vertically if it overflows |
 
 The text box is read-only (display only). It must be capable of rendering a tappable hyperlink on its third line when in Reveal state (see §8 — Article Display). Use `Text` with `AttributedString` or a `Link` view for the URL line.
 
@@ -89,7 +90,8 @@ The text box is read-only (display only). It must be capable of rendering a tapp
 | Idle (initial launch or after Reveal) | Placeholder text: **"Press the button …"** |
 | Sending (Test mode) | **"Sending …"** |
 | Sending (Learn mode) | Accumulated decoded characters, updated in real time |
-| Finished | **"Send complete…"** |
+| Finished (Test mode) | **"Send complete…"** |
+| Finished (Learn mode) | Decoded sentence remains visible — not replaced with "Send complete…" |
 | Stopped | **"Stopped …"** |
 | Error | **"Error fetching article: \<reason\>"** in red |
 | Reveal | The three article lines (Title, Sentence, Source) as described in §8 |
@@ -98,14 +100,21 @@ The text box is read-only (display only). It must be capable of rendering a tapp
 
 ## 5. Learn/Test Mode Picker
 
-A segmented `Picker` or `Toggle` control placed **above the speed slider**, left-aligned with the text box.
+A segmented `Picker` placed to the **left of the speed slider**, in an `HStack` within the controls area.
 
 | Property | Value |
 |----------|-------|
 | Style | Segmented picker (`PickerStyle.segmented`) |
+| Width | Fixed at 120 pt |
 | Choices | **"Learn"** and **"Test"** |
 | Default | **"Test"** |
-| Tint / label color | `#ff4d00` |
+| Selected segment tint | `#ff4d00` (orange) — always, including during playback |
+| Non-selected segment background | Dark grey (`UIColor(white: 0.25, alpha: 1)`) with white text |
+| Label font | `.subheadline` |
+
+Appearance is set globally via `UISegmentedControl.appearance()` in the app entry point so the colors remain consistent at all times.
+
+The picker is **never visually disabled**. Instead, mode changes triggered during active playback are silently rejected in `MorseViewModel` (the `mode` property's `didSet` restores the previous value if `appState == .sending` or `.loading`). This prevents the selected segment tint from changing colour during playback.
 
 ### 5.1 Test Mode (default)
 
@@ -119,8 +128,8 @@ When set to **Learn**, each character is revealed to the user **as its Morse cod
 - Decoded characters are appended to the text box in real time, in their **original sentence case** (not uppercased).
 - Each character is appended **as its first Morse symbol (dit or dah) begins playing**.
 - Word spaces are appended at the start of the inter-word gap, triggered by the same `onCharacterStart` callback used for letters.
+- When playback completes naturally, the decoded sentence **remains in the text box** (it is not replaced with "Send complete…").
 - **Stop and Reveal** behave identically to Test mode.
-- The picker is **disabled during active playback**; re-enabled when playback ends or is stopped.
 
 ---
 
@@ -137,8 +146,11 @@ The controls area sits below the text box, grouped in a `VStack`, horizontally c
 | Maximum | 150 CPM |
 | Default | 100 CPM |
 | Step | 1 CPM |
+| Selected (filled) track tint | `#ff4d00` (set via `.tint(accent)`) |
+| Unselected (remaining) track color | Dark grey (`UIColor(white: 0.25, alpha: 1)`) — set via `UISlider.appearance().maximumTrackTintColor` to match the mode picker non-selected background |
 | Label color | `#ff4d00` |
-| Live readout | A `Text` view above or below the slider displaying **"Speed: \<value\> CPM"** |
+| Label font | `.subheadline` |
+| Live readout | A `Text` view above the slider displaying **"Speed: \<value\> CPM"** |
 
 The slider value is readable at any time, including during playback. Changing the slider mid-transmission takes effect on the next Morse symbol (see §9.3).
 
@@ -371,6 +383,7 @@ All major logic must be covered by unit tests. UI tests use `XCUIApplication`.
 - In Test mode, text box shows "Sending …" during playback (not decoded characters).
 - Switching to Learn mode and tapping "Find an article" causes plaintext characters to appear in the text box during playback.
 - In Learn mode, `morseDone` still becomes `true` after playback completes.
+- In Learn mode, the decoded sentence remains in the text box after playback completes (not replaced with "Send complete…").
 - In Learn mode, tapping "Stop sending" halts playback and advances to Reveal state.
 - In Learn mode, tapping "Reveal" populates the full `Title:`, `Sentence:`, and `Source:` lines.
 
