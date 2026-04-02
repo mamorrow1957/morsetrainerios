@@ -58,7 +58,7 @@ The screen background must be uniformly dark grey with no visible dividers betwe
 
 ### 3.3 Footer
 
-- Contains the attribution string: **"vibe coded in Feb–Mar 2026 by Michael Morrow"**
+- Contains the attribution string: **"vibe coded in Feb–Apr 2026 by Michael Morrow"**
 - Text color: `#ff4d00`
 - Centered, small font
 

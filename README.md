@@ -54,4 +54,4 @@ MorseTraineriOS/
 
 ## Attribution
 
-Vibe coded in Feb–Mar 2026 by Michael Morrow
+Vibe coded in Feb–Apr 2026 by Michael Morrow
