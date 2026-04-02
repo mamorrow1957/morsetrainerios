@@ -116,9 +116,9 @@ When set to **Test**, article content is hidden during Morse playback and reveal
 When set to **Learn**, each character is revealed to the user **as its Morse code is transmitted** at the currently selected speed:
 
 - The text box **starts empty** when playback begins (no "Sending …" message in Learn mode).
-- Decoded characters are appended to the text box in real time.
+- Decoded characters are appended to the text box in real time, in their **original sentence case** (not uppercased).
 - Each character is appended **as its first Morse symbol (dit or dah) begins playing**.
-- Word spaces are appended as the inter-word gap begins.
+- Word spaces are appended at the start of the inter-word gap, triggered by the same `onCharacterStart` callback used for letters.
 - **Stop and Reveal** behave identically to Test mode.
 - The picker is **disabled during active playback**; re-enabled when playback ends or is stopped.
 
@@ -255,9 +255,12 @@ unitSeconds = 60.0 / (Double(cpm) * 8.0)
 
 - Use `AVAudioEngine` with an `AVAudioPlayerNode` and programmatically generated PCM audio buffers.
 - Configure `AVAudioSession` with category `.playback` and mode `.default` so audio plays even when the device is on silent (ringer switch off).
+- PCM buffer format: **44100 Hz, mono, non-interleaved float32** (`AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 1)`). This format must be used for both the node connection and all buffers — a mismatch causes a crash.
+- Use the Swift async `scheduleBuffer` API (`await node.scheduleBuffer(buffer)`) rather than the completion-handler variant.
 - Tone frequency: **650 Hz** (standard Morse sidetone).
 - No other sounds are played before or between Morse characters.
 - If audio setup fails, playback falls back to a timed delay (silent mode) so the rest of the UI still functions.
+- The `AddInstanceForFactory` CoreAudio message that appears in the simulator is a known harmless warning; it does not appear on physical devices.
 
 ### 9.5 Playback Completion Signal
 
