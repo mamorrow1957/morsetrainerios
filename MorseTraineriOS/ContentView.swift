@@ -78,37 +78,39 @@ struct ContentView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(surface)
 
-            if vm.displayText.hasPrefix("Title:"), let title = vm.revealTitle {
-                // Structured reveal view
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Title: ").bold() + Text(title)
-                    if let sentence = vm.revealSentence {
-                        Text("Sentence: ").bold() + Text(sentence)
-                    }
-                    if let url = vm.revealURL {
-                        HStack(spacing: 0) {
-                            Text("Source: ").bold().foregroundColor(.black)
-                            Link(url.absoluteString, destination: url)
-                                .foregroundColor(.blue)
+            ScrollView {
+                if vm.displayText.hasPrefix("Title:"), let title = vm.revealTitle {
+                    // Structured reveal view
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Title: ").bold() + Text(title)
+                        if let sentence = vm.revealSentence {
+                            Text("Sentence: ").bold() + Text(sentence)
+                        }
+                        if let url = vm.revealURL {
+                            HStack(spacing: 0) {
+                                Text("Source: ").bold().foregroundColor(.black)
+                                Link(url.absoluteString, destination: url)
+                                    .foregroundColor(.blue)
+                            }
                         }
                     }
-                }
-                .font(.body)
-                .foregroundColor(.black)
-                .padding(12)
-
-            } else if vm.displayText.isEmpty {
-                Text("Press the button …")
-                    .foregroundColor(Color(white: 0.5))
                     .font(.body)
-                    .padding(12)
-            } else {
-                Text(vm.displayText)
-                    .foregroundColor(vm.errorText != nil ? .red : .black)
-                    .font(.body)
-                    .padding(12)
+                    .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
+
+                } else if vm.displayText.isEmpty {
+                    Text("Press the button …")
+                        .foregroundColor(Color(white: 0.5))
+                        .font(.body)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                } else {
+                    Text(vm.displayText)
+                        .foregroundColor(vm.errorText != nil ? .red : .black)
+                        .font(.body)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
+            .padding(12)
         }
         .frame(maxWidth: .infinity)
         .frame(height: 240)
