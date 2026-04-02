@@ -87,11 +87,9 @@ struct ContentView: View {
                             Text("Sentence: ").bold() + Text(sentence)
                         }
                         if let url = vm.revealURL {
-                            HStack(spacing: 0) {
-                                Text("Source: ").bold().foregroundColor(.black)
-                                Link(url.absoluteString, destination: url)
-                                    .foregroundColor(.blue)
-                            }
+                            (Text("Source: ").bold().foregroundColor(.black)
+                            + Text(url.absoluteString).foregroundColor(.blue))
+                                .onTapGesture { UIApplication.shared.open(url) }
                         }
                     }
                     .font(.body)
