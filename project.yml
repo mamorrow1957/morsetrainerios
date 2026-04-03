@@ -23,6 +23,7 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_NSAppTransportSecurity_AllowsArbitraryLoads: NO
+        INFOPLIST_KEY_CFBundleDisplayName: Morse Trainer
     dependencies: []
 
   MorseTraineriOSTests:

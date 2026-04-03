@@ -6,6 +6,8 @@
 
 **Morse Trainer iOS** is a single-screen SwiftUI application that fetches random Wikipedia articles and plays the first sentence as Morse code via the device speaker. The article content is deliberately withheld during transmission and only revealed afterwards, so the user can practise decoding the code before seeing the answer. The user can adjust playback speed in real time, even while code is being sent.
 
+**App display name (home screen icon label):** Morse Trainer (`INFOPLIST_KEY_CFBundleDisplayName`)
+
 **Platform:** iOS 16.0+
 **Language:** Swift 5.9+
 **UI Framework:** SwiftUI
@@ -64,7 +66,14 @@ The screen background must be uniformly dark grey with no visible dividers betwe
 
 ### 3.4 Main Content Area
 
-The main content region holds the text box, the Learn/Test mode picker, the speed control, and the button. It uses a `VStack` with `Spacer` elements positioned **slightly above vertical center** — achieved by giving the bottom spacer more space than the top spacer.
+The main content region holds the text box, the Learn/Test mode picker, the speed control, and the button. It uses a `GeometryReader` wrapping a `VStack`, with all spacing and sizing expressed as proportions of the available height so the layout scales correctly across all iPhone sizes:
+
+| Element | Size |
+|---------|------|
+| Text box height | 34% of available height |
+| Gap between text box and controls | 3% of available height |
+| Gap between controls and button | 3% of available height |
+| Bottom spacer (pushes content above center) | 19% of available height |
 
 ---
 
@@ -75,13 +84,13 @@ The main content region holds the text box, the Learn/Test mode picker, the spee
 | Background | Very light grey (`#e8e8e8`) |
 | Text color | Black |
 | Width | Full width with horizontal padding (`.frame(maxWidth: .infinity)`) |
-| Height | 240 pt fixed |
+| Height | 34% of the main content area's available height (proportional, via `GeometryReader`) |
 | Corner radius | 8 pt |
 | Font size | Body — large enough to comfortably display several rows of text |
 | Placeholder text | **"Press the button …"** — shown when content is empty |
 | Scrolling | Content is wrapped in a `ScrollView`; text scrolls vertically if it overflows |
 
-The text box is read-only (display only). It must be capable of rendering a tappable hyperlink on its third line when in Reveal state (see §8 — Article Display). Use `Text` with `AttributedString` or a `Link` view for the URL line.
+The text box is read-only (display only). It must be capable of rendering a tappable hyperlink on its third line when in Reveal state (see §8 — Article Display). The Source line is rendered as a composed `Text` view (bold `"Source: "` + blue URL text) with an `.onTapGesture` that calls `UIApplication.shared.open(url)` — **not** a SwiftUI `Link`, as `Link` inside a `ScrollView` causes alignment issues.
 
 ### 4.1 Text Box States
 
@@ -214,9 +223,9 @@ When the user taps **"Reveal"** (or **"Stop sending"**, which triggers Reveal im
 |------|--------|
 | Line 1 | `Title: <article title>` |
 | Line 2 | `Sentence: <first complete sentence from the article content>` |
-| Line 3 | `Source: <article URL>` — rendered as a tappable `Link` that opens in Safari |
+| Line 3 | `Source: <article URL>` — rendered as tappable blue text that opens in Safari via `UIApplication.shared.open` |
 
-The Source URL must open in the device's default browser (use SwiftUI `Link` or `UIApplication.shared.open`).
+The Source URL must open in the device's default browser. Implemented as a composed `Text` view with `.onTapGesture` rather than a SwiftUI `Link` to avoid alignment issues inside `ScrollView`.
 
 ### 8.1 Sentence Extraction Rules
 
