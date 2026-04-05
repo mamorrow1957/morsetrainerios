@@ -21,7 +21,7 @@ enum WikipediaError: LocalizedError {
 struct WikipediaService {
     private static let endpoint = "https://en.wikipedia.org/api/rest_v1/page/random/summary"
 
-    static func fetchRandomArticle() async throws -> WikipediaSummary {
+    static func fetchRandomArticle(session: URLSession = .shared) async throws -> WikipediaSummary {
         guard let url = URL(string: endpoint) else { throw WikipediaError.invalidURL }
 
         var request = URLRequest(url: url)
@@ -29,7 +29,7 @@ struct WikipediaService {
 
         let (data, response): (Data, URLResponse)
         do {
-            (data, response) = try await URLSession.shared.data(for: request)
+            (data, response) = try await session.data(for: request)
         } catch let urlError as URLError where urlError.code == .timedOut {
             throw WikipediaError.timeout
         } catch {
