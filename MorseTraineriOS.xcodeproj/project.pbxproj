@@ -15,6 +15,7 @@
 		A5B5ADD3450DE5BA65338AA7 /* MorseEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99844226B06B0FECD202AFF /* MorseEngine.swift */; };
 		B923F74B9B970B3EE7CAE56E /* MorseTrainerIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B54DE7FDBF81338D65724E /* MorseTrainerIOSApp.swift */; };
 		D7B311A219872158676F31A8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF79EB71207F394ED38A5AD /* ContentView.swift */; };
+		F5DBCF1D83A9C18F331298FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A0614B7D6C6C511F1F8574B /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,7 +35,8 @@
 		280427DA4FDD0A8538A1114F /* MorseTraineriOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseTraineriOSTests.swift; sourceTree = "<group>"; };
 		6514859DCFB9E5BB149EBBDE /* WikipediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikipediaService.swift; sourceTree = "<group>"; };
 		74B54DE7FDBF81338D65724E /* MorseTrainerIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseTrainerIOSApp.swift; sourceTree = "<group>"; };
-		BBFB197EDCA74DEA3F0CF712 /* MorseTraineriOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MorseTraineriOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A0614B7D6C6C511F1F8574B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BBFB197EDCA74DEA3F0CF712 /* MorseTraineriOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MorseTraineriOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF79EB71207F394ED38A5AD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D99844226B06B0FECD202AFF /* MorseEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseEngine.swift; sourceTree = "<group>"; };
 		D9B50647F4459C1567811998 /* MorseTraineriOSTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MorseTraineriOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +79,7 @@
 		DFADA8C0D7AD209B7FCC911D /* MorseTraineriOS */ = {
 			isa = PBXGroup;
 			children = (
+				7A0614B7D6C6C511F1F8574B /* Assets.xcassets */,
 				BCF79EB71207F394ED38A5AD /* ContentView.swift */,
 				74B54DE7FDBF81338D65724E /* MorseTrainerIOSApp.swift */,
 				2801E55CC70B5356279AA504 /* Models */,
@@ -131,6 +134,7 @@
 			buildConfigurationList = CCF47A6762DF43D6168A96D3 /* Build configuration list for PBXNativeTarget "MorseTraineriOS" */;
 			buildPhases = (
 				562C9A66F041E50F84CAFD46 /* Sources */,
+				7EB3466044843B5C2C98393F /* Resources */,
 			);
 			buildRules = (
 			);
@@ -151,8 +155,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = F8B1D23272465A53E9A7A2E2 /* Build configuration list for PBXProject "MorseTraineriOS" */;
 			developmentRegion = en;
@@ -173,6 +175,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7EB3466044843B5C2C98393F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5DBCF1D83A9C18F331298FF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1732BD0A3066C0EC03819586 /* Sources */ = {
@@ -370,6 +383,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 695KHKNTAK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Morse Trainer";
 				INFOPLIST_KEY_NSAppTransportSecurity_AllowsArbitraryLoads = NO;
@@ -389,6 +403,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 695KHKNTAK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Morse Trainer";
 				INFOPLIST_KEY_NSAppTransportSecurity_AllowsArbitraryLoads = NO;

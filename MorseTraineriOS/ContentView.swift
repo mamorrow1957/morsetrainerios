@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct ContentView: View {
 
@@ -8,6 +9,11 @@ struct ContentView: View {
     private let appBackground  = Color(hex: "#1a1a1a")
     private let accent         = Color(hex: "#ff4d00")
     private let surface        = Color(hex: "#e8e8e8")
+
+    // Typewriter header animation
+    private let fullTitle = "Morse Trainer"
+    @State private var visibleCharCount = 0
+    @State private var typewriterPlayer = TypewriterPlayer()
 
     var body: some View {
         ZStack {
@@ -30,11 +36,20 @@ struct ContentView: View {
     // MARK: - Subviews
 
     private var header: some View {
-        Text("Morse Trainer")
-            .font(.largeTitle.bold())
+        Text(String(fullTitle.prefix(visibleCharCount)))
+            .font(.custom("AmericanTypewriter-Bold", size: 34))
             .foregroundColor(accent)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
+            .onAppear {
+                visibleCharCount = 0
+                for i in 1...fullTitle.count {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.15) {
+                        visibleCharCount = i
+                        typewriterPlayer.click()
+                    }
+                }
+            }
     }
 
     private var footer: some View {
@@ -51,9 +66,21 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                // Text box — 34% of available height
-                textBox(height: h * 0.34)
-                    .padding(.horizontal, 20)
+                // Telegram images + text box as a single framed unit
+                VStack(spacing: 0) {
+                    Image("TelegramTop")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+
+                    textBox(height: h * 0.36)
+
+                    Image("TelegramBottom")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                }
+                .padding(.horizontal, 20)
 
                 Spacer().frame(height: h * 0.03)
 
@@ -79,8 +106,8 @@ struct ContentView: View {
     @ViewBuilder
     private func textBox(height: CGFloat) -> some View {
         ZStack(alignment: .topLeading) {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(surface)
+            Rectangle()
+                .fill(Color.white)
 
             ScrollView {
                 if vm.displayText.hasPrefix("Title:"), let title = vm.revealTitle {
@@ -96,19 +123,19 @@ struct ContentView: View {
                                 .onTapGesture { UIApplication.shared.open(url) }
                         }
                     }
-                    .font(.body)
+                    .font(.custom("AmericanTypewriter", size: 17))
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 } else if vm.displayText.isEmpty {
                     Text("Press the button …")
                         .foregroundColor(Color(white: 0.5))
-                        .font(.body)
+                        .font(.custom("AmericanTypewriter", size: 17))
                         .frame(maxWidth: .infinity, alignment: .leading)
                 } else {
                     Text(vm.displayText)
                         .foregroundColor(vm.errorText != nil ? .red : .black)
-                        .font(.body)
+                        .font(.custom("AmericanTypewriter", size: 17))
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
@@ -117,6 +144,7 @@ struct ContentView: View {
         .frame(maxWidth: .infinity)
         .frame(height: height)
         .accessibilityIdentifier("textbox")
+        .clipped()
     }
 
     // MARK: Controls
@@ -159,7 +187,7 @@ struct ContentView: View {
     private var actionButton: some View {
         Button(action: { vm.buttonTapped() }) {
             Text(buttonLabel)
-                .font(.title3.bold())
+                .font(.custom("AmericanTypewriter-Bold", size: 20))
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
@@ -177,6 +205,50 @@ struct ContentView: View {
         case .sending: return "Stop sending"
         case .reveal:  return "Reveal"
         }
+    }
+}
+
+// MARK: - Typewriter click sound
+
+private class TypewriterPlayer {
+    private let engine = AVAudioEngine()
+    private let player = AVAudioPlayerNode()
+    private let format = AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 1)!
+
+    init() {
+        engine.attach(player)
+        engine.connect(player, to: engine.mainMixerNode, format: format)
+        try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
+        try? AVAudioSession.sharedInstance().setActive(true)
+        try? engine.start()
+    }
+
+    func click() {
+        let sampleRate = 44100.0
+        let duration   = 0.018  // 18 ms — shorter, snappier click
+        let frameCount = AVAudioFrameCount(sampleRate * duration)
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCount) else { return }
+        buffer.frameLength = frameCount
+
+        let data = buffer.floatChannelData![0]
+        for i in 0..<Int(frameCount) {
+            let t = Double(i) / sampleRate
+
+            // Two-stage envelope: sharp attack spike then slower mechanical decay
+            let envelope = (t < 0.002 ? t / 0.002 : exp(-(t - 0.002) * 90.0))
+
+            // Fundamental + 2nd harmonic for body
+            let tone = sin(2.0 * .pi * 800.0 * t) * 0.4
+                     + sin(2.0 * .pi * 1600.0 * t) * 0.2
+
+            // White noise for the mechanical clack character
+            let noise = Float.random(in: -1.0...1.0) * 0.55
+
+            data[i] = Float((tone + Double(noise)) * envelope * 0.35)
+        }
+
+        player.scheduleBuffer(buffer, completionHandler: nil)
+        if !player.isPlaying { player.play() }
     }
 }
 
