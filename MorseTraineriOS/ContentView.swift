@@ -71,7 +71,7 @@ struct ContentView: View {
     }
 
     private var footer: some View {
-        Text("©2026 Michael Morrow")
+        Text("©2026 Business Casual Software LLC")
             .font(.caption)
             .foregroundColor(accent)
             .frame(maxWidth: .infinity)

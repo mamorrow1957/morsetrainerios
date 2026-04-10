@@ -64,7 +64,7 @@ The screen background must be uniformly dark grey with no visible dividers betwe
 
 ### 3.3 Footer
 
-- Contains the attribution string: **"©2026 Michael Morrow"**
+- Contains the attribution string: **"©2026 Business Casual Software LLC"**
 - Text color: `#ff4d00`
 - Centered, small font
 
