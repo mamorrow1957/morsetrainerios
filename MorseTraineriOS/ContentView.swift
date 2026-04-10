@@ -71,7 +71,7 @@ struct ContentView: View {
     }
 
     private var footer: some View {
-        Text("vibe coded in Feb–Apr 2026 by Michael Morrow")
+        Text("©2026 Michael Morrow")
             .font(.caption)
             .foregroundColor(accent)
             .frame(maxWidth: .infinity)
