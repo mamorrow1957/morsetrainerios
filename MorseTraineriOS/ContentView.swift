@@ -14,6 +14,7 @@ struct ContentView: View {
     // Typewriter header animation
     private let fullTitle = "Morse Trainer"
     @State private var visibleCharCount = 0
+    @State private var hasAnimated = false
     @State private var typewriterPlayer = TypewriterPlayer()
 
     var body: some View {
@@ -54,6 +55,11 @@ struct ContentView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 16)
             .onAppear {
+                guard !hasAnimated else {
+                    visibleCharCount = fullTitle.count
+                    return
+                }
+                hasAnimated = true
                 visibleCharCount = 0
                 for i in 1...fullTitle.count {
                     DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.15) {

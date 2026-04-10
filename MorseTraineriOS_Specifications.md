@@ -57,7 +57,7 @@ The screen background must be uniformly dark grey with no visible dividers betwe
 
 ### 3.2 Header
 
-- Contains the app title: **"Morse Trainer"** with a typewriter character-by-character animation on launch, accompanied by mechanical click sounds
+- Contains the app title: **"Morse Trainer"** with a typewriter character-by-character animation on **first launch only**, accompanied by mechanical click sounds. On subsequent appearances (e.g. device rotation), the full title is displayed immediately with no animation or sounds.
 - Text color: `#e0e0e0` (very light grey)
 - Font: **1942 Report** (`1942report`) custom font, auto-scaled to match the width of the text box using `minimumScaleFactor`
 - Centered horizontally with `.padding(.horizontal, 20)` to align with the text box edges
