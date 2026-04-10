@@ -17,19 +17,15 @@ struct ContentView: View {
     @State private var typewriterPlayer = TypewriterPlayer()
 
     var body: some View {
-        ZStack {
-            appBackground.ignoresSafeArea()
+        GeometryReader { geo in
+            ZStack {
+                appBackground.ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                // MARK: Header
-                header
-
-                // MARK: Main content
-                mainContent
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-                // MARK: Footer
-                footer
+                if geo.size.width > geo.size.height {
+                    landscapeLayout(geo: geo)
+                } else {
+                    portraitLayout(geo: geo)
+                }
             }
         }
     }
@@ -76,44 +72,103 @@ struct ContentView: View {
             .padding(.vertical, 12)
     }
 
-    private var mainContent: some View {
-        GeometryReader { geo in
-            let h = geo.size.height
-            VStack(spacing: 0) {
-                Spacer()
+    private func portraitLayout(geo: GeometryProxy) -> some View {
+        VStack(spacing: 0) {
+            header
 
-                // Telegram images + text box as a single framed unit
+            GeometryReader { contentGeo in
+                let h = contentGeo.size.height
                 VStack(spacing: 0) {
-                    Image("TelegramTop")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: .infinity)
+                    Spacer()
 
-                    textBox(height: h * 0.36)
+                    VStack(spacing: 0) {
+                        Image("TelegramTop")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity)
 
-                    Image("TelegramBottom")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: .infinity)
+                        textBox(height: h * 0.36)
+
+                        Image("TelegramBottom")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity)
+                    }
+                    .padding(.horizontal, 20)
+
+                    Spacer().frame(height: h * 0.03)
+
+                    controls
+                        .padding(.horizontal, 20)
+
+                    Spacer().frame(height: h * 0.03)
+
+                    actionButton
+                        .padding(.horizontal, 20)
+
+                    Spacer()
+                    Spacer().frame(height: h * 0.19)
                 }
-                .padding(.horizontal, 20)
-
-                Spacer().frame(height: h * 0.03)
-
-                // Mode picker + speed slider
-                controls
-                    .padding(.horizontal, 20)
-
-                Spacer().frame(height: h * 0.03)
-
-                // Action button
-                actionButton
-                    .padding(.horizontal, 20)
-
-                // Extra bottom space to sit slightly above center
-                Spacer()
-                Spacer().frame(height: h * 0.19)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            footer
+        }
+    }
+
+    private func landscapeLayout(geo: GeometryProxy) -> some View {
+        let h = geo.size.height
+        let colWidth = geo.size.width * 0.62
+        let innerWidth = colWidth - 40
+        return VStack(spacing: 0) {
+
+            // Full-width header
+            header
+
+            // Two columns below
+            HStack(spacing: 0) {
+
+                // Left column: telegram frame + text box
+                VStack(spacing: 0) {
+                    Spacer()
+                    VStack(spacing: 0) {
+                        Image("TelegramTop")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: innerWidth)
+
+                        textBox(height: h * 0.40)
+                            .frame(width: innerWidth)
+
+                        Image("TelegramBottom")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: innerWidth)
+                    }
+                    Spacer()
+                }
+                .frame(width: colWidth)
+
+                // Right column: controls + button
+                VStack(spacing: 0) {
+                    Spacer()
+
+                    controls
+                        .padding(.horizontal, 20)
+
+                    Spacer().frame(height: h * 0.04)
+
+                    actionButton
+                        .padding(.horizontal, 20)
+
+                    Spacer()
+                }
+                .frame(width: geo.size.width * 0.38)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            // Full-width footer
+            footer
         }
     }
 

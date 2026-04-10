@@ -23,6 +23,7 @@ MorseTraineriOS/
 ├── MorseTraineriOS/
 │   ├── MorseTrainerIOSApp.swift      # App entry point
 │   ├── ContentView.swift             # Root view
+│   ├── Info.plist                    # App configuration (fonts, orientations, etc.)
 │   ├── ViewModels/
 │   │   └── MorseViewModel.swift      # App state and business logic
 │   ├── Models/
@@ -31,6 +32,8 @@ MorseTraineriOS/
 │   │   ├── WikipediaService.swift    # Article fetching
 │   │   ├── MorseEngine.swift         # Morse code playback engine
 │   │   └── SentenceExtractor.swift   # Sentence extraction logic
+│   ├── Fonts/
+│   │   └── 1942.ttf                  # 1942 Report custom font (Johan Holmdahl, freeware)
 │   └── Assets.xcassets
 └── MorseTraineriOSTests/
     └── MorseTraineriOSTests.swift    # XCTest unit test suite
@@ -54,9 +57,10 @@ The screen background must be uniformly dark grey with no visible dividers betwe
 
 ### 3.2 Header
 
-- Contains the app title: **"Morse Trainer"**
-- Text color: `#ff4d00`
-- Font: large, bold, centered
+- Contains the app title: **"Morse Trainer"** with a typewriter character-by-character animation on launch, accompanied by mechanical click sounds
+- Text color: `#e0e0e0` (very light grey)
+- Font: **1942 Report** (`1942report`) custom font, auto-scaled to match the width of the text box using `minimumScaleFactor`
+- Centered horizontally with `.padding(.horizontal, 20)` to align with the text box edges
 
 ### 3.3 Footer
 
@@ -151,17 +155,17 @@ The controls area sits below the text box, grouped in a `VStack`, horizontally c
 | Property | Value |
 |----------|-------|
 | SwiftUI element | `Slider` |
-| Minimum | 50 CPM |
-| Maximum | 150 CPM |
-| Default | 100 CPM |
-| Step | 1 CPM |
+| Minimum | 10 WPM (= 50 CPM) |
+| Maximum | 50 WPM (= 250 CPM) |
+| Default | 30 WPM (= 150 CPM) |
+| Step | 1 WPM |
 | Selected (filled) track tint | `#ff4d00` (set via `.tint(accent)`) |
 | Unselected (remaining) track color | Dark grey (`UIColor(white: 0.25, alpha: 1)`) — set via `UISlider.appearance().maximumTrackTintColor` to match the mode picker non-selected background |
 | Label color | `#ff4d00` |
 | Label font | `.subheadline` |
-| Live readout | A `Text` view above the slider displaying **"Speed: \<value\> CPM"** |
+| Live readout | A `Text` view above the slider displaying **"Speed: \<value\> WPM"** |
 
-The slider value is readable at any time, including during playback. Changing the slider mid-transmission takes effect on the next Morse symbol (see §9.3).
+Speed is stored as WPM and converted to CPM (×5) when passed to `MorseEngine`. The slider value is readable at any time, including during playback. Changing the slider mid-transmission takes effect on the next Morse symbol (see §9.3).
 
 ### 6.2 Button
 
@@ -332,7 +336,9 @@ Any punctuation not in this table is silently skipped.
   - `AppBackground` → `#1a1a1a`
   - `AppAccent` → `#ff4d00`
   - `SurfaceBackground` → `#e8e8e8`
-- The layout must be usable on all current iPhone screen sizes (iPhone SE through iPhone Pro Max) in portrait orientation. Landscape is a best-effort consideration.
+- The layout must be usable on all current iPhone screen sizes (iPhone SE through iPhone Pro Max) in portrait orientation.
+- **iPhone is locked to portrait only** (`UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait`).
+- **iPad supports all orientations.** In portrait, the layout matches iPhone. In landscape, a two-column layout is used: the left column (62% width) holds the Telegram frame and text box; the right column (38% width) holds the controls and button. The header and footer span the full width above and below the columns respectively.
 - Support Dynamic Type for accessibility (use relative font sizes where practical).
 
 ---
@@ -350,8 +356,8 @@ All major logic must be covered by unit tests. UI tests use `XCUIApplication`.
 
 ### 11.2 Speed Slider Tests
 
-- Slider is present with default value `100`.
-- Speed readout label displays `100` on launch.
+- Slider is present with default value `30` (WPM).
+- Speed readout label displays `30` on launch.
 - Changing the slider updates the readout in real time.
 
 ### 11.3 Button Tests
@@ -405,12 +411,12 @@ All major logic must be covered by unit tests. UI tests use `XCUIApplication`.
 | `appState` | `enum AppState` | `.idle`, `.loading`, `.sending`, `.reveal` |
 | `morseDone` | `@Published Bool` | Signals playback completion to tests |
 | `mode` | `enum Mode` | `.learn`, `.test` |
-| `cpm` | `@Published Int` | Current speed in CPM |
+| `wpm` | `@Published Int` | Current speed in WPM (converted to CPM ×5 for engine) |
 | `displayText` | `@Published String` | Text box content |
 | `"textbox"` | Accessibility ID | Text display area |
 | `"modeSwitch"` | Accessibility ID | Learn/Test picker |
-| `"speedSlider"` | Accessibility ID | CPM slider |
-| `"speedLabel"` | Accessibility ID | Live CPM readout |
+| `"speedSlider"` | Accessibility ID | WPM slider |
+| `"speedLabel"` | Accessibility ID | Live WPM readout |
 | `"findBtn"` | Accessibility ID | Primary action button |
 
 ---
