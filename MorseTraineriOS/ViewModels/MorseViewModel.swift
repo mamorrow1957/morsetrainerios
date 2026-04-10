@@ -18,7 +18,7 @@ final class MorseViewModel: ObservableObject {
     var mode: Mode = .test {
         didSet { if appState == .sending || appState == .loading { mode = oldValue } }
     }
-    @Published var cpm: Int = 100
+    @Published var wpm: Int = 30
     @Published var displayText: String = ""
     @Published var morseDone: Bool = false
     @Published var errorText: String? = nil
@@ -103,7 +103,7 @@ final class MorseViewModel: ObservableObject {
         }
 
         engine.play(sentence: sentence, cpmProvider: { [weak self] in
-            self?.cpm ?? 100
+            (self?.wpm ?? 30) * 5
         })
     }
 

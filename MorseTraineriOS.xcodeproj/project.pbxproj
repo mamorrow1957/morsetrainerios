@@ -13,6 +13,7 @@
 		9A5877E0158209CDBFBA99DC /* ArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0111BE47F7EDF26E97A20E21 /* ArticleModel.swift */; };
 		A121E0713EF9C9A27E631036 /* SentenceExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E123DCFDF85FC15D3720873 /* SentenceExtractor.swift */; };
 		A5B5ADD3450DE5BA65338AA7 /* MorseEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99844226B06B0FECD202AFF /* MorseEngine.swift */; };
+		AABFE3FFEC63867D822D2D94 /* 1942.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE27175D2365EEEA5B48EA9F /* 1942.ttf */; };
 		B923F74B9B970B3EE7CAE56E /* MorseTrainerIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B54DE7FDBF81338D65724E /* MorseTrainerIOSApp.swift */; };
 		D7B311A219872158676F31A8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF79EB71207F394ED38A5AD /* ContentView.swift */; };
 		F5DBCF1D83A9C18F331298FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A0614B7D6C6C511F1F8574B /* Assets.xcassets */; };
@@ -36,10 +37,12 @@
 		6514859DCFB9E5BB149EBBDE /* WikipediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikipediaService.swift; sourceTree = "<group>"; };
 		74B54DE7FDBF81338D65724E /* MorseTrainerIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseTrainerIOSApp.swift; sourceTree = "<group>"; };
 		7A0614B7D6C6C511F1F8574B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8D8D1416E67A481F28632102 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BBFB197EDCA74DEA3F0CF712 /* MorseTraineriOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MorseTraineriOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF79EB71207F394ED38A5AD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D99844226B06B0FECD202AFF /* MorseEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseEngine.swift; sourceTree = "<group>"; };
 		D9B50647F4459C1567811998 /* MorseTraineriOSTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MorseTraineriOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE27175D2365EEEA5B48EA9F /* 1942.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1942.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -81,7 +84,9 @@
 			children = (
 				7A0614B7D6C6C511F1F8574B /* Assets.xcassets */,
 				BCF79EB71207F394ED38A5AD /* ContentView.swift */,
+				8D8D1416E67A481F28632102 /* Info.plist */,
 				74B54DE7FDBF81338D65724E /* MorseTrainerIOSApp.swift */,
+				FEA621636852978CBC49F9D6 /* Fonts */,
 				2801E55CC70B5356279AA504 /* Models */,
 				E186FCD26A49125674E66B1C /* Services */,
 				83640D7A5BEF3357054063B3 /* ViewModels */,
@@ -106,6 +111,14 @@
 				A364E27708BC8CE54D6FA51D /* MorseTraineriOSTests */,
 				5F290FC8D95653671AE3DF8B /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		FEA621636852978CBC49F9D6 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				FE27175D2365EEEA5B48EA9F /* 1942.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +203,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AABFE3FFEC63867D822D2D94 /* 1942.ttf in Resources */,
 				F5DBCF1D83A9C18F331298FF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,7 +296,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = ABXDYQ55HS;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -342,7 +356,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = ABXDYQ55HS;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -397,10 +411,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 695KHKNTAK;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Morse Trainer";
-				INFOPLIST_KEY_NSAppTransportSecurity_AllowsArbitraryLoads = NO;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_FILE = MorseTraineriOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -417,10 +428,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 695KHKNTAK;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Morse Trainer";
-				INFOPLIST_KEY_NSAppTransportSecurity_AllowsArbitraryLoads = NO;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_FILE = MorseTraineriOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

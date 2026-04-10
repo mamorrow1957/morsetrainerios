@@ -9,6 +9,7 @@ struct ContentView: View {
     private let appBackground  = Color(hex: "#1a1a1a")
     private let accent         = Color(hex: "#ff4d00")
     private let surface        = Color(hex: "#e8e8e8")
+    private let headerColor    = Color(hex: "#e0e0e0")
 
     // Typewriter header animation
     private let fullTitle = "Morse Trainer"
@@ -35,11 +36,26 @@ struct ContentView: View {
 
     // MARK: - Subviews
 
+    private var headerString: AttributedString {
+        var str = AttributedString(fullTitle)
+        var i = 0
+        var idx = str.startIndex
+        while idx < str.endIndex {
+            let next = str.index(afterCharacter: idx)
+            str[idx..<next].foregroundColor = i < visibleCharCount ? headerColor : .clear
+            i += 1
+            idx = next
+        }
+        return str
+    }
+
     private var header: some View {
-        Text(String(fullTitle.prefix(visibleCharCount)))
-            .font(.custom("AmericanTypewriter-Bold", size: 34))
-            .foregroundColor(accent)
+        Text(headerString)
+            .font(.custom("1942report", size: 300))
+            .minimumScaleFactor(0.01)
+            .lineLimit(1)
             .frame(maxWidth: .infinity)
+            .padding(.horizontal, 20)
             .padding(.vertical, 16)
             .onAppear {
                 visibleCharCount = 0
@@ -167,14 +183,14 @@ struct ContentView: View {
 
             // Speed slider
             VStack(alignment: .leading, spacing: 4) {
-                Text("Speed: \(vm.cpm) CPM")
+                Text("Speed: \(vm.wpm) WPM")
                     .font(.subheadline)
                     .foregroundColor(accent)
                     .accessibilityIdentifier("speedLabel")
                 Slider(value: Binding(
-                    get: { Double(vm.cpm) },
-                    set: { vm.cpm = Int($0) }
-                ), in: 50...150, step: 1)
+                    get: { Double(vm.wpm) },
+                    set: { vm.wpm = Int($0) }
+                ), in: 10...50, step: 1)
                 .accessibilityIdentifier("speedSlider")
                 .tint(accent)
             }
@@ -218,7 +234,7 @@ private class TypewriterPlayer {
     init() {
         engine.attach(player)
         engine.connect(player, to: engine.mainMixerNode, format: format)
-        try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
         try? AVAudioSession.sharedInstance().setActive(true)
         try? engine.start()
     }

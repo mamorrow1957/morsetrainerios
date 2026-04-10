@@ -381,7 +381,7 @@ final class MorseViewModelTests: XCTestCase {
         let vm = MorseViewModel()
         XCTAssertEqual(vm.appState, .idle)
         XCTAssertEqual(vm.mode, .test)
-        XCTAssertEqual(vm.cpm, 100)
+        XCTAssertEqual(vm.wpm, 30)
         XCTAssertTrue(vm.displayText.isEmpty)
         XCTAssertFalse(vm.morseDone)
     }
